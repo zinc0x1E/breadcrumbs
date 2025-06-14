@@ -87,7 +87,17 @@
 			const value = textarea.value.trim();
 			if (!value) return new Notice("No rules to parse.");
 
-			const lines = split_and_trim(value, "\n").filter(Boolean);
+			const lines = split_and_trim(value, "\n")
+				// filter out comments
+				.filter((line) => {
+					// a line starts with '#' is a comment
+					const isComment = line.match(/^\s*#/);
+					if (isComment) {
+						log.debug(`line \`${line}\` is a line of comment. ignoring this line.`)
+					}
+					return !isComment;
+				})
+				.filter(Boolean);
 
 			const parsed = lines
 				.map(parse_transitive_relation)
