@@ -24,6 +24,7 @@
 	import RenderExternalCodeblock from "../obsidian/RenderExternalCodeblock.svelte";
 	import Tag from "../obsidian/tag.svelte";
 	import EdgeFieldSelector from "../selector/EdgeFieldSelector.svelte";
+	import { sequenceExpression } from "@babel/types";
 
 	export let plugin: BreadcrumbsPlugin;
 
@@ -110,6 +111,28 @@
 				return new Notice(
 					"Some rules could not be parsed. Ensure you're using the correct syntax of `[field-one, field-two] -> close-field`, with each rule of a new line.",
 				);
+			}
+
+			const checkbox = document.getElementById("BC-transitive-bulk-add-missing-field-checkbox") as HTMLInputElement | null;
+			if (!checkbox) return new Notice("Could not find checkbox.");
+			if (checkbox.checked) {
+				// make sure edge field exists
+				const existingFields = new Set(plugin.settings.edge_fields.map(it => it.label));
+				const newFields = parsed
+					.flatMap((r) => [
+						...r.data.chain.map(it => it.field),
+						r.data.close_field
+					])
+					.filter(Boolean)
+					.filter((field) => field && !existingFields.has(field)) as string[];
+
+				log.debug(`fields: ${JSON.stringify(newFields)} could not be found in existing field, trying to create them`);
+
+				for (const newField of newFields) {
+					settings.edge_fields.push({
+						label: newField
+					});
+				}
 			}
 
 			const validated = parsed.map((r) =>
