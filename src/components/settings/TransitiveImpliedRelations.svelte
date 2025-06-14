@@ -510,6 +510,16 @@
 					placeholder="[up] <- down"
 				></textarea>
 
+				<div class="flex flex-row">
+					<input
+						type="checkbox"
+						id="BC-transitive-bulk-add-missing-field-checkbox"
+					/>
+					<label for="BC-transitive-bulk-add-missing-field-checkbox">
+						Add edge fields if not exists at the same time?
+					</label>
+				</div>
+
 				<button class="w-60" on:click={actions.add_bulk}>
 					Bulk Add
 				</button>
