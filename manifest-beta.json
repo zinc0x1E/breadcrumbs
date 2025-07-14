@@ -1,7 +1,7 @@
 {
 	"id": "breadcrumbs",
 	"name": "Breadcrumbs",
-	"version": "4.2.35-beta-zinc.20250714.1609",
+	"version": "4.2.35-beta-zinc.20250714.1625",
 	"minAppVersion": "1.0.0",
 	"description": "Add structured hierarchies to your notes",
 	"author": "SkepticMystic",
