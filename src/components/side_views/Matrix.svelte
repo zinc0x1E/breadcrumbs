@@ -79,7 +79,8 @@
 		{#if grouped_out_edges}
 			<div>
 				<!-- NOTE: Although it's more efficient, iterating over the Object.entries(grouped_out_edges) doesn't result in a stable order. -->
-				{#each plugin.settings.edge_fields.sort((a, b) => {
+				<!-- NOTE: The `.slice()` before `.sort()` is used to create a shallow copy. In JavaScript, `.sort()` sorts the array in place. -->
+				{#each plugin.settings.edge_fields.slice().sort((a, b) => {
 					if (edge_sort_id.order === 1) {
 						return a.label.localeCompare(b.label)
 					} else if (edge_sort_id.order === -1) {
