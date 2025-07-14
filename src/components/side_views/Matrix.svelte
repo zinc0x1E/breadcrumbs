@@ -79,7 +79,15 @@
 		{#if grouped_out_edges}
 			<div>
 				<!-- NOTE: Although it's more efficient, iterating over the Object.entries(grouped_out_edges) doesn't result in a stable order. -->
-				{#each plugin.settings.edge_fields as field}
+				{#each plugin.settings.edge_fields.sort((a, b) => {
+					if (edge_sort_id.order === 1) {
+						return a.label.localeCompare(b.label)
+					} else if (edge_sort_id.order === -1) {
+						return b.label.localeCompare(a.label)
+					} else {
+						throw new Error("Invalid edge_sort_id.order")
+					}
+				}) as field}
 					{@const edges = grouped_out_edges[field.label]}
 
 					{#if edges?.length}
