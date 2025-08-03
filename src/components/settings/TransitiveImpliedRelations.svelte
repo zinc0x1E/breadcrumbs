@@ -122,10 +122,11 @@
 					])
 					.filter(Boolean)
 					.filter((field) => field && !existingFields.has(field)) as string[];
+				const dedupedNewFields = Array.from(new Set(newFields))
 
-				log.debug(`fields: ${JSON.stringify(newFields)} could not be found in existing field, trying to create them`);
+				log.debug(`fields: ${JSON.stringify(dedupedNewFields)} could not be found in existing field, trying to create them`);
 
-				for (const newField of newFields) {
+				for (const newField of dedupedNewFields) {
 					settings.edge_fields.push({
 						label: newField
 					});
